@@ -18,7 +18,11 @@
 
     const markTodoAsComplete = (index) => {
         todos[index].isComplete = !todos[index].isComplete;
-        console.log("wtf");
+    };
+
+    const deleteTodo = (index) => {
+        let deleteItem = todos[index];
+        todos = todos.filter((item) => item != deleteItem);
     };
 
     $: console.table(todos);
@@ -26,7 +30,6 @@
 
 <input type="text" placeholder="Add a task" bind:value={task} />
 <button on:click={addTodo}>Add</button>
-<div>stuff here</div>
 
 <ol>
     {#each todos as item, index}
@@ -36,7 +39,10 @@
                 ><button on:click={() => markTodoAsComplete(index)}>✔</button
                 ></span
             >
+            <span><button on:click={() => deleteTodo(index)}>✘</button></span>
         </li>
+    {:else}
+        <li>No todos found</li>
     {/each}
 </ol>
 
