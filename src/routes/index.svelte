@@ -5,6 +5,7 @@
      *   { task: "Get milk", isComplete: false, createdAt: "2022-01-27"},]
      */
     let task = "";
+    let error = "";
 
     const addTodo = () => {
         let todo = {
@@ -15,6 +16,9 @@
         if (task !== "") {
             todos = [todo, ...todos];
             task = "";
+            error = "";
+        } else {
+            error = "Task is empty";
         }
     };
 
@@ -54,11 +58,15 @@
     {:else}
         <li>No todos found</li>
     {/each}
+    <p class="error">{error}</p>
 </ol>
 <svelte:window on:keydown={keyIsPressed} />
 
 <style>
     .complete {
         text-decoration: line-through;
+    }
+    .error {
+        color: red;
     }
 </style>
