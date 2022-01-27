@@ -12,8 +12,10 @@
             isComplete: false,
             createdAt: new Date(),
         };
-        todos = [todo, ...todos];
-        task = "";
+        if (task !== "") {
+            todos = [todo, ...todos];
+            task = "";
+        }
     };
 
     const markTodoAsComplete = (index) => {
@@ -23,6 +25,14 @@
     const deleteTodo = (index) => {
         let deleteItem = todos[index];
         todos = todos.filter((item) => item != deleteItem);
+    };
+
+    const keyIsPressed = (event) => {
+        if (event.key === "Enter") {
+            addTodo();
+            console.log("Enter pressed");
+        }
+        //console.log(event);
     };
 
     $: console.table(todos);
@@ -45,6 +55,7 @@
         <li>No todos found</li>
     {/each}
 </ol>
+<svelte:window on:keydown={keyIsPressed} />
 
 <style>
     .complete {
