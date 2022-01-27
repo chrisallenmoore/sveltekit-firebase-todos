@@ -8,6 +8,7 @@
         updateDoc,
         deleteDoc,
         addDoc,
+        enableIndexedDbPersistence,
     } from "firebase/firestore";
     import { firebaseConfig } from "$lib/firebaseConfig.js";
     import { browser } from "$app/env";
@@ -16,6 +17,19 @@
         browser &&
         (getApps().length === 0 ? initializeApp(firebaseConfig) : getApp());
     const db = browser && getFirestore();
+
+    browser &&
+        enableIndexedDbPersistence(db).catch((err) => {
+            if (err.code == "failed-precondition") {
+                // Multiple tabs open, persistence can only be enabled
+                // in one tab at a a time.
+                // ...
+            } else if (err.code == "unimplemented") {
+                // The current browser does not support all of the
+                // features required to enable persistence
+                // ...
+            }
+        });
 
     const colRef = browser && collection(db, "todos");
 
