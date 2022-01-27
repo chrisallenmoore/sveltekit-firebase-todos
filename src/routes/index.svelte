@@ -1,5 +1,29 @@
 <script>
+    import { initializeApp, getApps, getApp } from "firebase/app";
+    import { getFirestore, collection, onSnapshot } from "firebase/firestore";
+    import { firebaseConfig } from "$lib/firebaseConfig.js";
+    import { browser } from "$app/env";
+
+    const firebaseApp =
+        browser &&
+        (getApps().length === 0 ? initializeApp(firebaseConfig) : getApp());
+    const db = browser && getFirestore();
+
+    const colRef = browser && collection(db, "todos");
+
     let todos = [];
+
+    const unsubscribe =
+        browser &&
+        onSnapshot(colRef, (querySnapshot) => {
+            let fbTodos = [];
+            querySnapshot.forEach((doc) => {
+                let todo = { ...doc.data(), id: doc.id };
+                fbTodos = [todo, ...fbTodos];
+            });
+            //console.table(fbTodos);
+            todos = fbTodos;
+        });
     /**
      * let todos = [
      *   { task: "Get milk", isComplete: false, createdAt: "2022-01-27"},]
