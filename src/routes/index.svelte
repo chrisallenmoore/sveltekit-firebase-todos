@@ -1,6 +1,14 @@
 <script>
     import { initializeApp, getApps, getApp } from "firebase/app";
-    import { getFirestore, collection, onSnapshot } from "firebase/firestore";
+    import {
+        getFirestore,
+        collection,
+        onSnapshot,
+        doc,
+        updateDoc,
+        deleteDoc,
+        addDoc,
+    } from "firebase/firestore";
     import { firebaseConfig } from "$lib/firebaseConfig.js";
     import { browser } from "$app/env";
 
@@ -31,14 +39,13 @@
     let task = "";
     let error = "";
 
-    const addTodo = () => {
-        let todo = {
-            task: task,
-            isComplete: false,
-            createdAt: new Date(),
-        };
+    const addTodo = async () => {
         if (task !== "") {
-            todos = [todo, ...todos];
+            const docRef = await addDoc(collection(db, "todos"), {
+                task: task,
+                isComplete: false,
+                createdAt: new Date(),
+            });
             task = "";
             error = "";
         } else {
@@ -46,13 +53,14 @@
         }
     };
 
-    const markTodoAsComplete = (index) => {
-        todos[index].isComplete = !todos[index].isComplete;
+    const markTodoAsComplete = async (item) => {
+        await updateDoc(doc(db, "todos", item.id), {
+            isComplete: !item.isComplete,
+        });
     };
 
-    const deleteTodo = (index) => {
-        let deleteItem = todos[index];
-        todos = todos.filter((item) => item != deleteItem);
+    const deleteTodo = async (id) => {
+        await deleteDoc(doc(db, "todos", id));
     };
 
     const keyIsPressed = (event) => {
@@ -74,10 +82,10 @@
         <li class:complete={item.isComplete}>
             <span>{item.task}</span>
             <span
-                ><button on:click={() => markTodoAsComplete(index)}>✔</button
+                ><button on:click={() => markTodoAsComplete(item)}>✔</button
                 ></span
             >
-            <span><button on:click={() => deleteTodo(index)}>✘</button></span>
+            <span><button on:click={() => deleteTodo(item.id)}>✘</button></span>
         </li>
     {:else}
         <li>No todos found</li>
