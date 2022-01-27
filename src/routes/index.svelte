@@ -1,2 +1,29 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script>
+    let todos = [];
+    /**
+     * let todos = [
+     *   { task: "Get milk", isComplete: false, createdAt: "2022-01-27"},]
+     */
+    let task = "";
+
+    const addTodo = () => {
+        let todo = {
+            task: task,
+            isComplete: false,
+            createdAt: new Date(),
+        };
+        todos = [todo, ...todos];
+        task = "";
+    };
+
+    $: console.table(todos);
+</script>
+
+<input type="text" placeholder="Add a task" bind:value={task} />
+<button on:click={addTodo}>Add</button>
+
+<ol>
+    {#each todos as item}
+        <li class:complete={item.isComplete}>{item.task}</li>
+    {/each}
+</ol>
