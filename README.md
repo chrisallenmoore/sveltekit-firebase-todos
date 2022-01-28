@@ -1,6 +1,6 @@
 # SvelteKit Firebase Todos
 
-This is a project testing out Svelte and Firebase with offline capabilites (indexeddb persistence is enable with enableIndexedDbPersistence).
+This is a project testing out Svelte and Firebase with offline capabilites (indexeddb persistence is enabled with enableIndexedDbPersistence).
 
 It's really, really basic. ;)
 
