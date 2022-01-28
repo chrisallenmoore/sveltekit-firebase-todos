@@ -2,6 +2,8 @@
 
 This is a project testing out Svelte and Firebase with offline capabilites (indexeddb persistence is enable with enableIndexedDbPersistence).
 
+It's really, really basic. ;)
+
 ## Running the app
 
 Once you've cloned or downloaded the project, install dependencies with `npm install` (or `pnpm install` or `yarn`), then start a development server:
