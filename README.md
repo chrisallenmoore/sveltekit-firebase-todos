@@ -1,10 +1,10 @@
 # SvelteKit Firebase Todos
 
-This is a project testing out Svelte and Firebase with offline capabilites.
+This is a project testing out Svelte and Firebase with offline capabilites (indexeddb persistence is enable with enableIndexedDbPersistence).
 
 ## Running the app
 
-Once you've downloaded and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+Once you've cloned or downloaded the project, install dependencies with `npm install` (or `pnpm install` or `yarn`), then start a development server:
 
 ```bash
 npm run dev
